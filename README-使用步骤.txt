@@ -1,27 +1,42 @@
 Whisper DaVinci 字幕工作站整合包
 
-1. 安装依赖
-   运行：Install_DaVinci_Whisper_Subtitle_Studio.bat
+使用顺序：
 
-2. 在 DaVinci 菜单中使用
-   把下面这个文件复制到 DaVinci 的 Fusion Scripts Utility 目录：
-   DaVinci菜单入口\Whisper_Subtitle_Studio.py
+Step 1：安装 Python
+打开文件夹：1.python安装
+运行：InstallPython.bat
+说明：如果电脑里已经能识别 python 命令，会自动跳过；否则需要把 Python 3.10.11 安装包放在这个文件夹后静默安装。
 
-   目标目录通常是：
-   C:\Users\TSJ-010\AppData\Roaming\Blackmagic Design\DaVinci Resolve\Support\Fusion\Scripts\Utility
+Step 2：安装 Whisper 运行环境
+打开文件夹：2.Whisper安装
+运行：InstallAll-Step2.bat
+说明：会在本整合包的 WhisperSubtitleStudio 文件夹里创建独立 .venv，并把 Whisper 依赖安装到这个 .venv。
+不会覆盖 VoxCPM2、IndexTTS 或全局 Python 环境。
+这一步需要联网下载 Python 依赖。
 
-3. 启动位置
-   DaVinci Resolve 顶部菜单：Workspace -> Scripts -> Whisper_Subtitle_Studio
+Step 3A：本地启动测试
+打开文件夹：3.启动和达芬奇集成
+运行：Start_Whisper_Subtitle_Studio.bat
 
-4. 本地启动测试
-   可运行：Start_DaVinci_Whisper_Subtitle_Studio.bat
+Step 3B：安装 DaVinci 菜单入口
+打开文件夹：3.启动和达芬奇集成
+运行：Install_DaVinci_Menu.bat
+然后重启 DaVinci Resolve，在菜单里打开：
+Workspace > Scripts > Utility > Whisper_Subtitle_Studio
 
-5. 模型来源
-   安装脚本会优先复制：
-   D:\WhisperWebUI整合包\2.whisper+ffmpeg安装\models\large-v3-turbo.pt
+本地 faster-whisper 模型位置：
+3.启动和达芬奇集成\WhisperSubtitleStudio\large_v3_model
+整合包本地版本已经放入 faster-whisper large-v3-turbo 模型。
 
-   如果未复制成功，主脚本仍会尝试直接读取上面的原始模型路径。
+openai-whisper .pt 模型兜底位置：
+3.启动和达芬奇集成\WhisperSubtitleStudio\models\large-v3-turbo.pt
 
-6. 字幕替换注意
-   脚本会删除当前时间线旧字幕，再尝试按旧字幕起点插入修正版 SRT。
-   第一次使用建议先复制时间线测试。
+规则库位置：
+3.启动和达芬奇集成\WhisperSubtitleStudio\srt_rules.json
+
+注意事项：
+- 不要改变整合包内部目录结构。
+- 如果刚装完 Python，Step 2 里仍提示找不到 python，请关闭 BAT 窗口重新打开。
+- 目标电脑如果有 NVIDIA 显卡，建议先安装或更新 NVIDIA 驱动。
+- 当前安装脚本默认安装 pip 官方依赖；如需 CUDA 加速版 PyTorch，可后续单独替换 .venv 内 torch。
+- 字幕替换功能会删除当前时间线旧字幕项，第一次使用建议先复制时间线测试。

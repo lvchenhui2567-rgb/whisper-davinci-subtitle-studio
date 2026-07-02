@@ -6,6 +6,9 @@ __pycache__/
 # Large local model files are intentionally not stored in GitHub.
 models/
 large_v3_model/
+3.启动和达芬奇集成/WhisperSubtitleStudio/models/
+3.启动和达芬奇集成/WhisperSubtitleStudio/large_v3_model/
+3.启动和达芬奇集成/WhisperSubtitleStudio/.venv/
 
 # Local/generated media outputs.
 outputs/
