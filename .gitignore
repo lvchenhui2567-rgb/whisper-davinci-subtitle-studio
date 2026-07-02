@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+.learnings/
+
+# Large local model files are intentionally not stored in GitHub.
+models/
+large_v3_model/
+
+# Local/generated media outputs.
+outputs/
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.flac
+*.srt.tmp
+
+# Local caches.
+.cache/
+.huggingface/
