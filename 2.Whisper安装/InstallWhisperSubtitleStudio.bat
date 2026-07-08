@@ -34,7 +34,22 @@ if errorlevel 1 (
   exit /b 1
 )
 
-"%APP_DIR%\.venv\Scripts\python.exe" -c "import whisper; import faster_whisper; print('Whisper runtime OK')"
+echo Installing DaVinci Python bridge modules into local .venv...
+for /f "delims=" %%i in ('"%APP_DIR%\.venv\Scripts\python.exe" -c "import site; print(site.getsitepackages()[0])"') do set "SITE_PACKAGES=%%i"
+if not exist "%SITE_PACKAGES%" (
+  echo [ERROR] Cannot locate site-packages.
+  pause
+  exit /b 1
+)
+copy /Y "%APP_DIR%\DaVinci库文件\DaVinciResolveScript.py" "%SITE_PACKAGES%\DaVinciResolveScript.py" >nul
+copy /Y "%APP_DIR%\DaVinci库文件\python_get_resolve.py" "%SITE_PACKAGES%\python_get_resolve.py" >nul
+if errorlevel 1 (
+  echo [ERROR] Failed to copy DaVinci bridge modules.
+  pause
+  exit /b 1
+)
+
+"%APP_DIR%\.venv\Scripts\python.exe" -c "import whisper; import faster_whisper; import DaVinciResolveScript; print('Whisper and DaVinci bridge OK')"
 if errorlevel 1 (
   echo [ERROR] Import check failed.
   pause

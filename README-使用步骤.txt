@@ -11,6 +11,7 @@ Step 2：安装 Whisper 运行环境
 打开文件夹：2.Whisper安装
 运行：InstallAll-Step2.bat
 说明：会在本整合包的 WhisperSubtitleStudio 文件夹里创建独立 .venv，并把 Whisper 依赖安装到这个 .venv。
+同时会把 DaVinciResolveScript.py、python_get_resolve.py 复制到这个 .venv 的 Python 库文件夹，确保外部 Python 能识别达芬奇脚本接口。
 不会覆盖 VoxCPM2、IndexTTS 或全局 Python 环境。
 这一步需要联网下载 Python 依赖。
 
@@ -33,6 +34,9 @@ openai-whisper .pt 模型兜底位置：
 
 规则库位置：
 3.启动和达芬奇集成\WhisperSubtitleStudio\srt_rules.json
+
+DaVinci Python 桥接库位置：
+3.启动和达芬奇集成\WhisperSubtitleStudio\DaVinci库文件
 
 注意事项：
 - 不要改变整合包内部目录结构。

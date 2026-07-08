@@ -20,6 +20,8 @@
 
 `3.启动和达芬奇集成\WhisperSubtitleStudio\.venv`
 
+同时会把 `DaVinciResolveScript.py`、`python_get_resolve.py` 复制到这个 `.venv` 的 Python 库文件夹，确保外部 Python 能识别 DaVinci Resolve 脚本接口。
+
 不会覆盖 VoxCPM2、IndexTTS 或全局 Python 环境。
 
 ## Step 3A：本地启动测试
@@ -49,6 +51,10 @@ openai-whisper `.pt` 兜底模型：
 `3.启动和达芬奇集成\WhisperSubtitleStudio\models\large-v3-turbo.pt`
 
 主脚本会优先使用 `large_v3_model`，因此本地整合包默认走 faster-whisper。
+
+DaVinci Python 桥接库：
+
+`3.启动和达芬奇集成\WhisperSubtitleStudio\DaVinci库文件`
 
 ## GitHub 备份说明
 
