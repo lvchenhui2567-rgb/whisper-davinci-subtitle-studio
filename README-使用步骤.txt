@@ -38,6 +38,9 @@ openai-whisper .pt 模型兜底位置：
 DaVinci Python 桥接库位置：
 3.启动和达芬奇集成\WhisperSubtitleStudio\DaVinci库文件
 
+TXT 文稿导出：
+在校对页点击“导出当前字幕为 TXT 文稿”，会把当前 SRT 中的序号和时间码去掉，只导出字幕正文。
+
 注意事项：
 - 不要改变整合包内部目录结构。
 - 如果刚装完 Python，Step 2 里仍提示找不到 python，请关闭 BAT 窗口重新打开。

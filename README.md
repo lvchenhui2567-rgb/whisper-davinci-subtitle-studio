@@ -56,6 +56,10 @@ DaVinci Python 桥接库：
 
 `3.启动和达芬奇集成\WhisperSubtitleStudio\DaVinci库文件`
 
+## TXT 文稿导出
+
+在校对页点击 `导出当前字幕为 TXT 文稿`，会把当前 SRT 中的序号和时间码去掉，只导出字幕正文。
+
 ## GitHub 备份说明
 
 GitHub 仓库只备份脚本、安装器、桥接入口、规则库和说明。

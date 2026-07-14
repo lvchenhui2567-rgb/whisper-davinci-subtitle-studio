@@ -307,6 +307,7 @@ class DaVinciSubtitleStudio:
         self.rule_listbox.pack(fill=tk.BOTH, expand=True, pady=5)
         tk.Button(right_frame, text="➖ 从词库中彻底删除选中规则", bg=btn_bg, fg=fg_color, borderwidth=0, command=self.delete_rule).pack(fill=tk.X, ipady=3)
         
+        tk.Button(right_frame, text="📝 导出当前字幕为 TXT 文稿", bg="#455A64", fg="white", font=("Microsoft YaHei", 10, "bold"), borderwidth=0, command=self.export_current_subtitles_to_txt).pack(fill=tk.X, pady=(14, 0), ipady=7)
         tk.Button(right_frame, text="💾 终版保存并自动导入媒体池", bg="#D48B2A", fg="white", font=("Microsoft YaHei", 12, "bold"), borderwidth=0, command=self.execute_and_import).pack(fill=tk.X, pady=(20, 0), ipady=12)
 
     # ==========================
@@ -770,6 +771,65 @@ class DaVinciSubtitleStudio:
         if start_time:
             self.jump_playhead_to_srt_time(start_time)
         self.last_search_pos = end_pos
+
+    def srt_content_to_plain_text(self, content):
+        lines = []
+        for raw_block in re.split(r'\n\s*\n', content.strip()):
+            block_lines = [line.strip() for line in raw_block.splitlines() if line.strip()]
+            if not block_lines:
+                continue
+
+            text_lines = []
+            for line in block_lines:
+                if re.fullmatch(r'\d+', line):
+                    continue
+                if '-->' in line:
+                    continue
+                text_lines.append(line)
+
+            if text_lines:
+                lines.append(''.join(text_lines))
+        return '\n'.join(lines).strip()
+
+    def export_current_subtitles_to_txt(self):
+        content = self.text_preview.get("1.0", "end-1c").strip()
+        if not content:
+            messagebox.showwarning("提示", "当前没有字幕内容可以导出。")
+            return
+
+        plain_text = self.srt_content_to_plain_text(content)
+        if not plain_text:
+            messagebox.showwarning("提示", "未能从当前内容中解析出字幕正文。")
+            return
+
+        if self.current_srt_path and os.path.exists(self.current_srt_path):
+            initial_dir = os.path.dirname(os.path.abspath(self.current_srt_path))
+            initial_name = os.path.splitext(os.path.basename(self.current_srt_path))[0] + "_文稿.txt"
+        else:
+            initial_dir = os.path.expanduser("~")
+            try:
+                timeline = self.project.GetCurrentTimeline() if self.project else None
+                timeline_name = timeline.GetName() if timeline else "当前字幕"
+            except Exception:
+                timeline_name = "当前字幕"
+            initial_name = f"{timeline_name}_文稿.txt"
+
+        save_path = filedialog.asksaveasfilename(
+            title="导出 TXT 文稿",
+            defaultextension=".txt",
+            initialdir=initial_dir,
+            initialfile=initial_name,
+            filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+        )
+        if not save_path:
+            return
+
+        try:
+            with open(save_path, 'w', encoding='utf-8') as f:
+                f.write(plain_text + "\n")
+            messagebox.showinfo("导出完成", f"TXT 文稿已保存：\n{save_path}")
+        except Exception as e:
+            messagebox.showerror("导出失败", f"无法保存 TXT 文件：\n{e}")
 
     def _find_block_start_time_for_text_index(self, text_index):
         content = self.text_preview.get("1.0", "end-1c")
