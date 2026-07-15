@@ -124,7 +124,8 @@ class DaVinciSubtitleStudio:
     def __init__(self, root):
         self.root = root
         self.root.title("达芬奇 AI 字幕终极工作站 (含媒体池联动 + 记忆词库)")
-        self.root.geometry("1050x780")
+        self.root.geometry("1050x840")
+        self.root.minsize(1050, 820)
         self.root.attributes('-topmost', True)
         self.root.configure(bg="#1A1A1C")
         
@@ -242,7 +243,7 @@ class DaVinciSubtitleStudio:
         btn_bg = "#3A3A42"
         
         # 【优化】：重构顶栏，恢复媒体池下拉选择
-        top_frame = tk.Frame(self.tab_edit, bg=bg_color, pady=10)
+        top_frame = tk.Frame(self.tab_edit, bg=bg_color, pady=6)
         top_frame.pack(fill=tk.X, padx=10)
         
         tk.Button(top_frame, text="⬇️ 抓取时间线", bg="#4CAF50", fg="white", font=("Microsoft YaHei", 10, "bold"), 
@@ -259,7 +260,7 @@ class DaVinciSubtitleStudio:
         tk.Button(top_frame, text="📂 浏览本地", bg="#5294E2", fg="white", borderwidth=0, padx=10, command=self.manual_select).pack(side=tk.RIGHT)
 
         main_frame = tk.Frame(self.tab_edit, bg=bg_color)
-        main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=(2, 5))
 
         left_frame = tk.Frame(main_frame, bg=bg_color, width=500)
         left_frame.pack(side=tk.LEFT, fill=tk.Y)
@@ -278,37 +279,37 @@ class DaVinciSubtitleStudio:
         right_frame = tk.Frame(main_frame, bg=bg_color)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(15, 0))
 
-        tk.Label(right_frame, text="🔍 记忆词库与全局替换", bg=bg_color, fg=fg_color, font=("Microsoft YaHei", 11, "bold")).pack(anchor="w", pady=(0, 10))
+        tk.Label(right_frame, text="🔍 记忆词库与全局替换", bg=bg_color, fg=fg_color, font=("Microsoft YaHei", 11, "bold")).pack(anchor="w", pady=(0, 6))
         
-        tk.Button(right_frame, text="⚡ 一键应用整个词库 (批量修正本文)", bg="#2E7D32", fg="white", font=("Microsoft YaHei", 10, "bold"), borderwidth=0, command=self.apply_all_rules).pack(fill=tk.X, pady=(0, 10), ipady=6)
+        tk.Button(right_frame, text="⚡ 一键应用整个词库 (批量修正本文)", bg="#2E7D32", fg="white", font=("Microsoft YaHei", 10, "bold"), borderwidth=0, command=self.apply_all_rules).pack(fill=tk.X, pady=(0, 6), ipady=4)
 
         input_frame = tk.Frame(right_frame, bg=bg_color)
         input_frame.pack(fill=tk.X)
         
         tk.Label(input_frame, text="查找错字:", bg=bg_color, fg=fg_color).grid(row=0, column=0, sticky="w")
         find_container = tk.Frame(input_frame, bg=bg_color)
-        find_container.grid(row=0, column=1, pady=5, padx=(5,0), sticky="w")
+        find_container.grid(row=0, column=1, pady=3, padx=(5,0), sticky="w")
         self.find_entry = tk.Entry(find_container, width=15, bg=card_color, fg="white", borderwidth=0)
         self.find_entry.pack(side=tk.LEFT, ipady=4)
         tk.Button(find_container, text="🔽 定位", bg="#4CAF50", fg="white", borderwidth=0, command=self.find_next_text, cursor="hand2").pack(side=tk.LEFT, padx=(5,0), ipady=2, ipadx=5)
         
         tk.Label(input_frame, text="替换为:", bg=bg_color, fg=fg_color).grid(row=1, column=0, sticky="w")
         self.replace_entry = tk.Entry(input_frame, width=22, bg=card_color, fg="white", borderwidth=0)
-        self.replace_entry.grid(row=1, column=1, pady=5, padx=(5,0), ipady=4)
+        self.replace_entry.grid(row=1, column=1, pady=3, padx=(5,0), ipady=4)
         
-        tk.Button(right_frame, text="➕ 替换当前并永久加入词库", bg=btn_bg, fg="white", borderwidth=0, command=self.add_and_preview_rule).pack(fill=tk.X, pady=10, ipady=5)
+        tk.Button(right_frame, text="➕ 替换当前并永久加入词库", bg=btn_bg, fg="white", borderwidth=0, command=self.add_and_preview_rule).pack(fill=tk.X, pady=6, ipady=4)
         
         rule_header = tk.Frame(right_frame, bg=bg_color)
         rule_header.pack(fill=tk.X)
         tk.Label(rule_header, text="📖 本地常驻词库：", bg=bg_color, fg=fg_color).pack(side=tk.LEFT)
         tk.Button(rule_header, text="📥 导入", bg="#5294E2", fg="white", borderwidth=0, command=self.import_json_rules).pack(side=tk.RIGHT, padx=(5, 0))
         tk.Button(rule_header, text="📤 导出", bg=btn_bg, fg=fg_color, borderwidth=0, command=self.export_json_rules).pack(side=tk.RIGHT)
-        self.rule_listbox = tk.Listbox(right_frame, height=7, bg=card_color, fg="#CCCCCC", borderwidth=0)
-        self.rule_listbox.pack(fill=tk.BOTH, expand=True, pady=5)
-        tk.Button(right_frame, text="➖ 从词库中彻底删除选中规则", bg=btn_bg, fg=fg_color, borderwidth=0, command=self.delete_rule).pack(fill=tk.X, ipady=3)
+        self.rule_listbox = tk.Listbox(right_frame, height=5, bg=card_color, fg="#CCCCCC", borderwidth=0)
+        self.rule_listbox.pack(fill=tk.BOTH, expand=True, pady=4)
+        tk.Button(right_frame, text="➖ 从词库中彻底删除选中规则", bg=btn_bg, fg=fg_color, borderwidth=0, command=self.delete_rule).pack(fill=tk.X, ipady=2)
         
-        tk.Button(right_frame, text="📝 导出当前字幕为 TXT 文稿", bg="#455A64", fg="white", font=("Microsoft YaHei", 10, "bold"), borderwidth=0, command=self.export_current_subtitles_to_txt).pack(fill=tk.X, pady=(14, 0), ipady=7)
-        tk.Button(right_frame, text="💾 终版保存并自动导入媒体池", bg="#D48B2A", fg="white", font=("Microsoft YaHei", 12, "bold"), borderwidth=0, command=self.execute_and_import).pack(fill=tk.X, pady=(20, 0), ipady=12)
+        tk.Button(right_frame, text="📝 导出当前字幕为 TXT 文稿", bg="#455A64", fg="white", font=("Microsoft YaHei", 10, "bold"), borderwidth=0, command=self.export_current_subtitles_to_txt).pack(fill=tk.X, pady=(8, 0), ipady=5)
+        tk.Button(right_frame, text="💾 终版保存并自动导入媒体池", bg="#D48B2A", fg="white", font=("Microsoft YaHei", 12, "bold"), borderwidth=0, command=self.execute_and_import).pack(fill=tk.X, pady=(10, 0), ipady=8)
 
     # ==========================
     #      持久化词库读写逻辑
